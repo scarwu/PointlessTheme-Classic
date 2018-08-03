@@ -2,7 +2,7 @@
 /**
  * Page Data Handler for Theme
  *
- * @package     Pointless Theme
+ * @package     Pointless Theme - Classic
  * @author      Scar Wu
  * @copyright   Copyright (c) Scar Wu (http://scar.tw)
  * @link        https://github.com/scarwu/PointlessTheme-Classic
