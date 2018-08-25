@@ -9,33 +9,31 @@
  */
 
 $config = [
-    'assets' => [
-        'scripts' => [
-            'main'
-        ],
-        'styles' => [
-            'normalize',
-            'solarized_dark',
-            'main'
-        ]
-    ],
-    'views' => [
-        'side' => [
-            'tag',
-            'category',
-            'archive'
-        ]
+    'extensions' => [
+        'Atom',
+        'Sitemap'
     ],
     'handlers' => [
-        'StaticPage',
+        'Describe',
         'Article',
         'Page',
         'Archive',
         'Category',
         'Tag'
     ],
-    'extensions' => [
-        'Atom',
-        'Sitemap'
+    'views' => [
+        'container' => [
+            'describe',
+            'article',
+            'page',
+            'archive',
+            'category',
+            'tag'
+        ],
+        'side' => [
+            'archive',
+            'category',
+            'tag'
+        ]
     ]
 ];

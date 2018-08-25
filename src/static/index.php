@@ -2,10 +2,10 @@
 /**
  * Bootstrap Example
  *
- * @package     PointlessTheme - Unique
+ * @package     PointlessTheme - Classic
  * @author      Scar Wu
  * @copyright   Copyright (c) Scar Wu (https://scar.tw)
- * @link        https://github.com/scarwu/PointlessTheme-Unique
+ * @link        https://github.com/scarwu/PointlessTheme-Classic
  */
 
 // Set Default Time Zone
