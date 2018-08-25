@@ -1,41 +1,37 @@
 <?php
-use Pointless\Library\Helper;
+use Oni\Web\Helper;
+
+$name = $systemConfig['blog']['name'];
+$lang = $systemConfig['blog']['lang'];
+$slogan = $systemConfig['blog']['slogan'];
+$footer = $systemConfig['blog']['footer'];
+
+$domainName = $systemConfig['blog']['domainName'];
+$baseUrl = $systemConfig['blog']['baseUrl'];
+
+$googleAnalytics = $systemConfig['blog']['googleAnalytics'];
+$disqusShortname = $systemConfig['blog']['disqusShortname'];
+
+$title = isset($container['title'])
+    ? "{$container['title']} | {$systemConfig['blog']['name']}"
+    : $systemConfig['blog']['name'];
+$description = (!isset($container['description']) || '' === $container['description'])
+    ? $systemConfig['blog']['description']
+    : $container['description'];
 ?>
 <!doctype html>
-<html lang="<?=$blog['lang']?>">
+<html class="no-js" style="display: block !important;" lang="<?=$lang?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="<?=$blog['description']?>">
+    <meta name="description" content="<?=$description?>">
 
-    <title><?=$blog['title']?></title>
+    <title><?=$title?></title>
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?=$blog['base']?>assets/styles.css">
-</head>
-<body>
-    <div id="main">
-        <div id="border">
-            <hgroup id="header">
-                <h1><?=Helper::linkTo($blog['base'], $blog['name'])?></h1>
-                <h2><?=$blog['slogan']?></h2>
-            </hgroup>
-            <nav id="nav">
-                <form id="nav_search" action="http://www.google.com/search?q=as" target="_blank" method="get">
-                    <input type="hidden" name="q" value="site:<?=$blog['dn']?>">
-                    <input type="text" name="q" placeholder="Search">
-                    <input type="submit">
-                </form>
-                <a href="<?=$blog['base']?>">Home</a>
-                <a href="<?="{$blog['base']}about/"?>">About</a>
-            </nav>
-            <div id="container"><?=$block['container']?></div>
-            <div id="side"><?=$block['side']?></div>
-            <footer id="footer">
-                <?=$blog['footer']?> - <a href="https://github.com/scarwu/Pointless" target="_blank">Powered by Pointless</a>
-            </footer>
-        </div>
-    </div>
+    <link rel="stylesheet" href="<?=$baseUrl?>assets/styles/theme.min.css">
+
+    <script src="<?=$baseUrl?>assets/scripts/vendor/modernizr.min.js"></script>
+    <script src="<?=$baseUrl?>assets/scripts/theme.min.js" async></script>
 
     <script>
         function asyncLoad(src) {
@@ -44,24 +40,65 @@ use Pointless\Library\Helper;
             var e = document.getElementsByTagName('script')[0];
             e.parentNode.insertBefore(s, e);
         }
-
-        <?php if(null != $blog['google_analytics']): ?>
-        var _gaq = [['_setAccount', '<?=$blog['google_analytics']?>'], ['_trackPageview']];
-        asyncLoad(('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js');
-        <?php endif; ?>
-
-        <?php if(null != $blog['disqus_shortname']): ?>
-        var disqus_shortname = '<?=$blog['disqus_shortname']?>';
-        if (document.getElementById('disqus_comments')) {
-            asyncLoad('http://' + disqus_shortname + '.disqus.com/count.js');
-        }
-        if (document.getElementById('disqus_thread')) {
-            asyncLoad('http://' + disqus_shortname + '.disqus.com/embed.js');
-        }
-        <?php endif; ?>
     </script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.1/modernizr.min.js" async></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js"></script>
-    <script src="<?=$blog['base']?>assets/scripts.js"></script>
+    <?php if(null !== $googleAnalytics): ?>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '<?=$googleAnalytics?>', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <?php endif; ?>
+</head>
+<body>
+    <div id="main">
+        <div id="border">
+            <hgroup id="header">
+                <h1><?=Helper::linkTo($baseUrl, $name)?></h1>
+                <h2><?=$slogan?></h2>
+            </hgroup>
+
+            <nav id="nav">
+                <form id="nav_search" action="http://www.google.com/search?q=as" target="_blank" method="get">
+                    <input type="hidden" name="q" value="site:<?=$domainName?>">
+                    <input type="text" name="q" placeholder="Search">
+                    <input type="submit">
+                </form>
+                <a href="<?=$baseUrl?>">Home</a>
+                <a href="<?="{$baseUrl}about/"?>">About</a>
+            </nav>
+
+            <div id="container">
+                <?=$this->loadContent()?>
+            </div>
+
+            <div id="side">
+            <?php foreach ($themeConfig['views']['side'] as $name): ?>
+            <?=$this->loadPartial("side/{$name}")?>
+            <?php endforeach; ?>
+            </div>
+
+            <footer id="footer">
+                <?=$footer?> - <a href="https://github.com/scarwu/Pointless" target="_blank">Powered by Pointless</a>
+            </footer>
+        </div>
+    </div>
+
+    <?php if(null !== $disqusShortname): ?>
+    <script>
+        var disqusShortname = '<?=$disqusShortname?>';
+
+        if (document.getElementsByTagName('disqus_comments')) {
+            asyncLoad('//' + disqusShortname + '.disqus.com/count.js');
+        }
+
+        if (document.getElementById('disqus_thread')) {
+            asyncLoad('//' + disqusShortname + '.disqus.com/embed.js');
+        }
+    </script>
+    <?php endif; ?>
 </body>
 </html>
