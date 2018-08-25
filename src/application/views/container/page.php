@@ -43,7 +43,7 @@ $indicator = "{$paging['currentIndex']} / {$paging['totalIndex']}";
             </span>
         </div>
         <div class="content"><?=$article['summary']?></div>
-        <a class="more" href="<?="{$baseUrl}article/{$article['url']}"?>">Read more</a>
+        <a class="more" href="<?="{$baseUrl}article/{$article['url']}"?>">More</a>
     </article>
     <hr>
     <?php endforeach; ?>
