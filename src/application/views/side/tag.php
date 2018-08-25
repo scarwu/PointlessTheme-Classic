@@ -1,15 +1,17 @@
 <?php
-use Pointless\Library\Helper;
+use Oni\Web\Helper;
+
+$baseUrl = $systemConfig['blog']['baseUrl'];
 ?>
 <div id="side_tag">
     <div class="title">
-        <?=Helper::linkTo("{$blog['base']}tag/", 'Tag')?>
+        <?=Helper::linkTo("{$baseUrl}tag/", 'Tag')?>
     </div>
     <div class="content">
-        <?php foreach ($list as $key => $value): ?>
-        <?php $count = count($value); ?>
+        <?php foreach ($sideList['tag'] as $key => $postList): ?>
+        <?php $count = count($postList); ?>
         <span class="item">
-            <?=Helper::linkTo("{$blog['base']}tag/{$key}/", "{$key}({$count})")?>
+            <?=Helper::linkTo("{$baseUrl}tag/{$key}/", "{$key}({$count})")?>
         </span>
         <?php endforeach; ?>
     </div>

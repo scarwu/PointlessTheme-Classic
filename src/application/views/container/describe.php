@@ -1,5 +1,5 @@
 <?php
-use Pointless\Library\Helper;
+use Oni\Web\Helper;
 ?>
 <div id="container_static">
     <article class="post_block">
